@@ -7,9 +7,16 @@ import (
 	"github.com/adominguez793/pokedexcli/internal/pokeapi"
 )
 
-func commandMap() error {
+const baseURL = "https://pokeapi.co/api/v2"
+
+func commandMap(cfg *Config) error {
+	fullURL := baseURL + "/location-area"
+	if cfg.Next != nil {
+		fullURL = *cfg.Next
+	}
+
 	cli := pokeapi.NewClient()
-	location, err := cli.PokeapiReq()
+	location, err := cli.PokeapiReq(fullURL)
 	if err != nil {
 		log.Fatal("Error trying to generate next 30 Pokemon Area Locations ...")
 		return err
@@ -17,5 +24,7 @@ func commandMap() error {
 	for _, place := range location.Results {
 		fmt.Printf("%s\n", place.Name)
 	}
+	cfg.Next = location.Next
+
 	return nil
 }

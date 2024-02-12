@@ -22,9 +22,13 @@ func NewClient() Client {
 
 const baseURL = "https://pokeapi.co/api/v2"
 
-func (c *Client) PokeapiReq() (LocationArea, error) {
+func (c *Client) PokeapiReq(URL string) (LocationArea, error) {
 	endpointURL := "/location-area"
 	fullURL := baseURL + endpointURL
+	if URL != fullURL {
+		fullURL = URL
+	}
+
 	req, err := http.NewRequest("GET", fullURL, nil)
 	if err != nil {
 		return LocationArea{}, err

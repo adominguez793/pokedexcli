@@ -10,7 +10,7 @@ import (
 type cliCommand struct {
 	name        string
 	description string
-	callback    func() error
+	callback    func(*Config) error
 }
 
 func getCommand() map[string]cliCommand {
@@ -33,7 +33,7 @@ func getCommand() map[string]cliCommand {
 	}
 }
 
-func Repl() {
+func Repl(cfg *Config) {
 	scanner := bufio.NewScanner(os.Stdin)
 
 	for {
@@ -51,7 +51,7 @@ func Repl() {
 			fmt.Println("That's not a real command...")
 			continue
 		}
-		availableCommands[command].callback()
+		availableCommands[command].callback(cfg)
 	}
 }
 
