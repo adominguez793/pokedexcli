@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 
@@ -14,6 +15,23 @@ func commandExplore(cfg *Config, cache *pokecache.Cache, arg string) error {
 		return errors.New("Missing input for explore command ... ")
 	}
 
+	fmt.Printf("Exploring %s...\n", arg)
+	fmt.Println("Found Pokemon: ")
+
+	cacheVal, confirmation := cache.Get(arg)
+	if confirmation == true {
+		var NameLocation pokeapi.NameLocationArea
+		err := json.Unmarshal(cacheVal, &NameLocation)
+		if err != nil {
+			fmt.Println("Error unmarshalling var dat in explore command")
+			return errors.New("Error unmarshalling var dat in explore command")
+		}
+		for _, pokemon := range NameLocation.PokemonEncounters {
+			fmt.Printf(" - %s\n", pokemon.Pokemon.Name)
+		}
+		return nil
+	}
+
 	cli := pokeapi.NewClient()
 	location, err := cli.NamePokeapiReq(arg, cache)
 	if err != nil {
@@ -21,7 +39,7 @@ func commandExplore(cfg *Config, cache *pokecache.Cache, arg string) error {
 		return errors.New("Error with pokeapi request in explore command")
 	}
 	for _, pokemon := range location.PokemonEncounters {
-		fmt.Printf("%s\n", pokemon.Pokemon.Name)
+		fmt.Printf(" - %s\n", pokemon.Pokemon.Name)
 	}
 	return nil
 }
