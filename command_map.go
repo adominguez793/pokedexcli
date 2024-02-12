@@ -25,6 +25,7 @@ func commandMap(cfg *Config) error {
 		fmt.Printf("%s\n", place.Name)
 	}
 	cfg.Next = location.Next
+	cfg.Previous = location.Previous
 
 	return nil
 }
