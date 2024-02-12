@@ -16,7 +16,6 @@ func commandExplore(cfg *Config, cache *pokecache.Cache, arg string) error {
 	}
 
 	fmt.Printf("Exploring %s...\n", arg)
-	fmt.Println("Found Pokemon: ")
 
 	cacheVal, confirmation := cache.Get(arg)
 	if confirmation == true {
@@ -26,6 +25,7 @@ func commandExplore(cfg *Config, cache *pokecache.Cache, arg string) error {
 			fmt.Println("Error unmarshalling var dat in explore command")
 			return errors.New("Error unmarshalling var dat in explore command")
 		}
+		fmt.Println("Found Pokemon:")
 		for _, pokemon := range NameLocation.PokemonEncounters {
 			fmt.Printf(" - %s\n", pokemon.Pokemon.Name)
 		}
@@ -38,6 +38,7 @@ func commandExplore(cfg *Config, cache *pokecache.Cache, arg string) error {
 		fmt.Println(err)
 		return errors.New("Error with pokeapi request in explore command")
 	}
+	fmt.Println("Found Pokemon:")
 	for _, pokemon := range location.PokemonEncounters {
 		fmt.Printf(" - %s\n", pokemon.Pokemon.Name)
 	}
