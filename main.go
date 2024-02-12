@@ -21,7 +21,7 @@ func main() {
 	}
 
 	fiveMin := time.Minute * 5
-	cache := pokecache.NewCache(fiveMin)
+	cachePtr := pokecache.NewCache(fiveMin)
 
-	Repl(&cfg, &cache)
+	Repl(&cfg, cachePtr)
 }
