@@ -6,6 +6,8 @@ import (
 	"io"
 	"net/http"
 	"time"
+
+	"github.com/adominguez793/pokedexcli/internal/pokecache"
 )
 
 type Client struct {
@@ -22,7 +24,7 @@ func NewClient() Client {
 
 const baseURL = "https://pokeapi.co/api/v2"
 
-func (c *Client) PokeapiReq(URL string) (LocationArea, error) {
+func (c *Client) PokeapiReq(URL string, cache *pokecache.Cache) (LocationArea, error) {
 	endpointURL := "/location-area"
 	fullURL := baseURL + endpointURL
 	if URL != fullURL {
@@ -52,5 +54,6 @@ func (c *Client) PokeapiReq(URL string) (LocationArea, error) {
 		return LocationArea{}, err
 	}
 
+	cache.Add(fullURL, dat)
 	return Location, nil
 }

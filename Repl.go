@@ -5,12 +5,14 @@ import (
 	"fmt"
 	"os"
 	"strings"
+
+	"github.com/adominguez793/pokedexcli/internal/pokecache"
 )
 
 type cliCommand struct {
 	name        string
 	description string
-	callback    func(*Config) error
+	callback    func(*Config, *pokecache.Cache) error
 }
 
 func getCommand() map[string]cliCommand {
@@ -38,7 +40,7 @@ func getCommand() map[string]cliCommand {
 	}
 }
 
-func Repl(cfg *Config) {
+func Repl(cfg *Config, cache *pokecache.Cache) {
 	scanner := bufio.NewScanner(os.Stdin)
 
 	for {
@@ -56,7 +58,7 @@ func Repl(cfg *Config) {
 			fmt.Println("That's not a real command...")
 			continue
 		}
-		availableCommands[command].callback(cfg)
+		availableCommands[command].callback(cfg, cache)
 	}
 }
 
