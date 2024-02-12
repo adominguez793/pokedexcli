@@ -12,7 +12,7 @@ import (
 type cliCommand struct {
 	name        string
 	description string
-	callback    func(*Config, *pokecache.Cache) error
+	callback    func(*Config, *pokecache.Cache, string) error
 }
 
 func getCommand() map[string]cliCommand {
@@ -37,6 +37,11 @@ func getCommand() map[string]cliCommand {
 			description: "Exit the Pokedex",
 			callback:    commandExit,
 		},
+		"explore": {
+			name:        "explore",
+			description: "Explore the Pokedex",
+			callback:    commandExplore,
+		},
 	}
 }
 
@@ -58,7 +63,15 @@ func Repl(cfg *Config, cache *pokecache.Cache) {
 			fmt.Println("That's not a real command...")
 			continue
 		}
-		availableCommands[command].callback(cfg, cache)
+
+		if len(cleanInput) > 1 {
+			arg := cleanInput[1]
+			availableCommands[command].callback(cfg, cache, arg)
+		}
+		if len(cleanInput) == 1 {
+			arg := ""
+			availableCommands[command].callback(cfg, cache, arg)
+		}
 	}
 }
 

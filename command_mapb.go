@@ -9,7 +9,7 @@ import (
 	"github.com/adominguez793/pokedexcli/internal/pokecache"
 )
 
-func commandMapB(cfg *Config, cache *pokecache.Cache) error {
+func commandMapB(cfg *Config, cache *pokecache.Cache, arg string) error {
 	if cfg.Previous == nil {
 		fmt.Println("This is the first page of Pokemon Area Locations ...")
 		return errors.New("First page!")

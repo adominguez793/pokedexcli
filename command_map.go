@@ -12,7 +12,7 @@ import (
 
 const baseURL = "https://pokeapi.co/api/v2"
 
-func commandMap(cfg *Config, cache *pokecache.Cache) error {
+func commandMap(cfg *Config, cache *pokecache.Cache, arg string) error {
 	fullURL := baseURL + "/location-area"
 	if cfg.Next != nil {
 		fullURL = *cfg.Next

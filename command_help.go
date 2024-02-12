@@ -6,7 +6,7 @@ import (
 	"github.com/adominguez793/pokedexcli/internal/pokecache"
 )
 
-func commandHelp(cfg *Config, cache *pokecache.Cache) error {
+func commandHelp(cfg *Config, cache *pokecache.Cache, command string) error {
 	fmt.Println("Welcome to the Pokedex!")
 	fmt.Println("Usage:")
 	fmt.Println()
